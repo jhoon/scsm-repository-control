@@ -5,10 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.StringTokenizer;
 import philips.scsm.view.SolutionRepositoryFrame;
 
 /**
@@ -17,7 +15,8 @@ import philips.scsm.view.SolutionRepositoryFrame;
  */
 public class RepositoryControl {
 
-    SolutionRepositoryFrame parent;
+    private SolutionRepositoryFrame parent;
+    private String[] columnId;
 
     public RepositoryControl(SolutionRepositoryFrame parent) {
         this.parent = parent;
@@ -32,16 +31,34 @@ public class RepositoryControl {
             if (reader.ready()) {
                 String linea = reader.readLine();
                 header = linea.split(",");
+                columnId = header;
             }
 
             while (reader.ready()) {
-                String linea = reader.readLine();
+                /*String linea = reader.readLine();
                 StringTokenizer tok = new StringTokenizer(linea, ",");
                 LinkedHashMap item = new LinkedHashMap();
                 int i = 0;
                 while (tok.hasMoreElements()) {
-                    item.put(header[i], tok.nextElement());
-                    i++;
+                String value = String.valueOf(tok.nextElement()).replaceAll("\"", "");
+                if (value.isEmpty()) {
+                System.out.println("vacio " + i);
+                } else {
+                System.out.println("no vacio -" + value + "-");
+                }
+                item.put(header[i], value);
+                i++;
+                }
+                source.add(item);*/
+
+                String[] tok = reader.readLine().split(",");
+                LinkedHashMap item = new LinkedHashMap();
+
+                int head = 0;
+                for (int i = 0; i < tok.length; i++) {
+                    String value =tok[i].replaceAll("\"", "");
+                    item.put(header[head], value);
+                    head++;
                 }
                 source.add(item);
             }
@@ -71,5 +88,9 @@ public class RepositoryControl {
         }
         System.out.println(data);
         return data;
+    }
+
+    public String[] getColumnId() {
+        return columnId;
     }
 }

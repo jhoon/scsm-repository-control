@@ -1,9 +1,14 @@
 package philips.scsm.view;
 
+import com.csvreader.CsvReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import philips.scsm.control.RepositoryControl;
@@ -120,11 +125,21 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame {
         if (data != null) {
             List list = repositoryControl.getBugList(data);
             DefaultTableModel tb = (DefaultTableModel) tbRepository.getModel();
-
+            tb.setColumnIdentifiers(repositoryControl.getColumnId());
             for (int i = 0; i < list.size(); i++) {
                 HashMap item = (HashMap) list.get(i);
                 Collection a = item.values();
                 tb.addRow(a.toArray());
+            }
+
+            try {
+                CsvReader reader = new CsvReader(data.getPath());
+                String[] val = reader.getValues();
+                System.out.println(val);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(SolutionRepositoryFrame.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                    Logger.getLogger(SolutionRepositoryFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 }//GEN-LAST:event_btnLoadPatchDataActionPerformed
