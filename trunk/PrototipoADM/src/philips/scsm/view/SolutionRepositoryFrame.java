@@ -1,6 +1,5 @@
 package philips.scsm.view;
 
-import com.csvreader.CsvReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -72,7 +71,12 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame {
             }
         });
 
+        jTextField1.setEnabled(false);
+
+        jTextField2.setEnabled(false);
+
         btnLoadPatchRepository.setText("Load Patch Repository");
+        btnLoadPatchRepository.setEnabled(false);
         btnLoadPatchRepository.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoadPatchRepositoryActionPerformed(evt);
@@ -117,7 +121,6 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoadPatchDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadPatchDataActionPerformed
-        //fileChooser = new JFileChooser();
         FileChooserDialog file = new FileChooserDialog(this, true);
         file.getFileChooser().setFileFilter(new FileNameExtensionFilter("CSV file", "csv", "xls", "xml"));
         file.setVisible(true);
@@ -130,16 +133,6 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame {
                 HashMap item = (HashMap) list.get(i);
                 Collection a = item.values();
                 tb.addRow(a.toArray());
-            }
-
-            try {
-                CsvReader reader = new CsvReader(data.getPath());
-                String[] val = reader.getValues();
-                System.out.println(val);
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(SolutionRepositoryFrame.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                    Logger.getLogger(SolutionRepositoryFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 }//GEN-LAST:event_btnLoadPatchDataActionPerformed
