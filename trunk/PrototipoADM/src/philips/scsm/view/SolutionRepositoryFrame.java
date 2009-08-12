@@ -1,28 +1,72 @@
 package philips.scsm.view;
 
+import java.awt.Cursor;
 import java.io.File;
+import java.io.FileFilter;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import javax.swing.DefaultListModel;
+import javax.swing.JTree;
+import javax.swing.event.TreeExpansionEvent;
+import javax.swing.event.TreeExpansionListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 import philips.scsm.control.RepositoryControl;
 
 /**
  *
  * @author pablo.sierralta
  */
-public class SolutionRepositoryFrame extends javax.swing.JFrame {
+public class SolutionRepositoryFrame extends javax.swing.JFrame implements TreeSelectionListener, TreeExpansionListener {
 
     private RepositoryControl repositoryControl;
+    private DefaultMutableTreeNode top;
+    private DefaultListModel mdlFiles;
 
     /** Creates new form SolutionRepositoryFrame */
     public SolutionRepositoryFrame() {
         java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
         java.awt.Dimension tamano = toolkit.getScreenSize();
         this.setPreferredSize(new java.awt.Dimension(tamano.width, tamano.height - 30));
+        
+        File f = new File("G:\\Development Support\\Projects\\System Maintenance\\Products\\XIRIS\\Maintenance\\");
+        //File f = new File("/");
+
+        top = new DefaultMutableTreeNode(f);
+        populateNode(top, f);
+
         initComponents();
         repositoryControl = new RepositoryControl(this);
+    }
+
+    private boolean populateNode(DefaultMutableTreeNode node, File f) {
+        node.removeAllChildren();
+        return populateNode(node, f, 2);
+    }
+
+    private boolean populateNode(DefaultMutableTreeNode node, File f, int depth) {
+        File[] files = f.listFiles(new FileFilter() {
+            public boolean accept(File pathname) {
+                return pathname.isDirectory();
+            }
+        });
+
+        if (files != null && depth > 0) {
+            for (int i = 0; i < files.length; i++) {
+                DefaultMutableTreeNode curr =
+                        new DefaultMutableTreeNode(files[i]);
+
+                populateNode(curr, files[i], depth -1);
+                node.add(curr);
+            }
+        }
+        return true;
     }
 
     @SuppressWarnings("unchecked")
@@ -36,6 +80,8 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
         btnLoadPatchRepository = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        treeDir = new javax.swing.JTree(top);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Solutions Repository");
@@ -45,20 +91,10 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Bug ID", "Title", "Author", "Status", "Resolution", "Link"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
-            };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
             }
-        });
+        ));
         jScrollPane1.setViewportView(tbRepository);
-        tbRepository.getColumnModel().getColumn(0).setResizable(false);
-        tbRepository.getColumnModel().getColumn(1).setResizable(false);
 
         btnLoadPatchData.setText("Load Patch Data");
         btnLoadPatchData.addActionListener(new java.awt.event.ActionListener() {
@@ -72,12 +108,13 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame {
         jTextField2.setEnabled(false);
 
         btnLoadPatchRepository.setText("Load Patch Repository");
-        btnLoadPatchRepository.setEnabled(false);
         btnLoadPatchRepository.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoadPatchRepositoryActionPerformed(evt);
             }
         });
+
+        jScrollPane2.setViewportView(treeDir);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -86,7 +123,10 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING)
@@ -109,7 +149,9 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame {
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLoadPatchRepository))
                 .addGap(32, 32, 32)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(320, Short.MAX_VALUE))
         );
 
@@ -118,9 +160,9 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame {
 
     private void btnLoadPatchDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadPatchDataActionPerformed
         FileChooserDialog file = new FileChooserDialog(this, true);
-        file.getFileChooser().setFileFilter(new FileNameExtensionFilter("CSV file", "csv", "xls", "xml"));
+        file.setFileFilter(new FileNameExtensionFilter("CSV file", "csv", "xls", "xml"));
         file.setVisible(true);
-        File data = file.getFileChooser().getSelectedFile();
+        File data = file.getFile();
         if (data != null) {
             List list = repositoryControl.getBugList(data);
             DefaultTableModel tb = (DefaultTableModel) tbRepository.getModel();
@@ -140,21 +182,82 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame {
         fileChooser.showDialog(this, "Load");
          */
         FileChooserDialog file = new FileChooserDialog(this, true);
-        file.getFileChooser().setFileFilter(new FileNameExtensionFilter("CSV file", "csv", "xls", "xml"));
+        file.setFileFilter(new FileNameExtensionFilter("Path", "."));
         file.setVisible(true);
-        File data = file.getFileChooser().getSelectedFile();
-        System.out.println("Action Command -" + fileChooser.getCurrentDirectory().getPath() + "- ");
+        String path = file.getSelectedFilePath();
+        System.out.println("Action Command -" + path + "- ");
         repositoryControl.getPatchList(new File("G:\\Development Support\\Projects\\System Maintenance\\Products\\XIRIS\\Maintenance"));
 
+
+        
+
 }//GEN-LAST:event_btnLoadPatchRepositoryActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLoadPatchData;
     private javax.swing.JButton btnLoadPatchRepository;
     private javax.swing.JFileChooser fileChooser;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTable tbRepository;
+    private javax.swing.JTree treeDir;
     // End of variables declaration//GEN-END:variables
+
+  /**
+     * Se ejecuta cuando cambia el valor seleccionado en la lista.
+     * @param e El evento que sucedio
+     */
+    public void valueChanged(TreeSelectionEvent e) {
+        DefaultMutableTreeNode node =
+                (DefaultMutableTreeNode) treeDir.getLastSelectedPathComponent();
+
+        if (node == null) return;
+
+        File f = (File) node.getUserObject();
+        File[] files = f.listFiles(new FileFilter() {
+            public boolean accept(File pathname) {
+                return pathname.isFile();
+            }
+        });
+
+        mdlFiles.removeAllElements();
+        if (files != null)
+            for (int i = 0; i < files.length; i++) {
+                mdlFiles.addElement(files[i]);
+            }
+    }
+
+    /**
+     * Se ejecuta cuando se expande una carpeta
+     * @param event El evento que sucedio
+     */
+    public void treeExpanded(TreeExpansionEvent event) {
+        TreePath path = event.getPath();
+        DefaultMutableTreeNode node =
+                (DefaultMutableTreeNode) path.getLastPathComponent();
+
+        if (node == null) return;
+
+        setCursor(new Cursor(Cursor.WAIT_CURSOR));
+
+        File f = (File) node.getUserObject();
+        populateNode(node, f);
+
+        JTree tree = (JTree) event.getSource();
+        DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
+        model.nodeStructureChanged(node);
+
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }
+
+    /**
+     * Se ejecuta cuando se cierra una carpeta
+     * @param event El evento que sucedio
+     */
+    public void treeCollapsed(TreeExpansionEvent event) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

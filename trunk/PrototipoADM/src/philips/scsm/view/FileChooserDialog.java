@@ -2,6 +2,7 @@ package philips.scsm.view;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -13,6 +14,10 @@ public class FileChooserDialog extends javax.swing.JDialog {
     public FileChooserDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+
+    void setFileFilter(FileNameExtensionFilter fileNameExtensionFilter) {
+        fileChooser.setFileFilter(fileNameExtensionFilter);
     }
 
     @SuppressWarnings("unchecked")
@@ -64,8 +69,12 @@ public class FileChooserDialog extends javax.swing.JDialog {
         }
 }//GEN-LAST:event_fileChooserActionPerformed
 
-    public javax.swing.JFileChooser getFileChooser() {
-        return fileChooser;
+    public java.io.File getFile() {
+        return fileChooser.getSelectedFile();
+    }
+
+    public String getSelectedFilePath() {
+        return fileChooser.getCurrentDirectory().getPath();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
