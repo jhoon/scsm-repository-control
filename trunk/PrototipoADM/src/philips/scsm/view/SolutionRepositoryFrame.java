@@ -1,13 +1,11 @@
 package philips.scsm.view;
 
-import java.awt.Cursor;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import javax.swing.DefaultListModel;
-import javax.swing.JTree;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeExpansionListener;
 import javax.swing.event.TreeSelectionEvent;
@@ -15,8 +13,6 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
 import philips.scsm.control.RepositoryControl;
 
 /**
@@ -35,7 +31,7 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame implements TreeS
         java.awt.Dimension tamano = toolkit.getScreenSize();
         this.setPreferredSize(new java.awt.Dimension(tamano.width, tamano.height - 30));
         
-        File f = new File("G:\\Development Support\\Projects\\System Maintenance\\Products\\XIRIS\\Maintenance\\");
+        File f = new File("G:\\Development Support\\Projects\\System Maintenance\\Products\\XIRIS\\Maintenance");
         //File f = new File("/");
 
         top = new DefaultMutableTreeNode(f);
@@ -47,21 +43,28 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame implements TreeS
 
     private boolean populateNode(DefaultMutableTreeNode node, File f) {
         node.removeAllChildren();
-        return populateNode(node, f, 2);
+        return populateNode(node, f, 5);
     }
 
     private boolean populateNode(DefaultMutableTreeNode node, File f, int depth) {
         File[] files = f.listFiles(new FileFilter() {
             public boolean accept(File pathname) {
-                return pathname.isDirectory();
+                //return pathname.isDirectory();
+                return true;
             }
         });
 
         if (files != null && depth > 0) {
             for (int i = 0; i < files.length; i++) {
+                String nombre = files[i].getName();
+                if(nombre.indexOf("RQ") != -1) {
+                    nombre = nombre.substring(nombre.indexOf("RQ"), nombre.length());
+                }
                 DefaultMutableTreeNode curr =
-                        new DefaultMutableTreeNode(files[i]);
+                        //new DefaultMutableTreeNode(files[i]);
+                        new DefaultMutableTreeNode(nombre);
 
+                        //System.out.println("files[i] " + files[i]);
                 populateNode(curr, files[i], depth -1);
                 node.add(curr);
             }
@@ -114,6 +117,14 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame implements TreeS
             }
         });
 
+        treeDir.addTreeExpansionListener(new javax.swing.event.TreeExpansionListener() {
+            public void treeCollapsed(javax.swing.event.TreeExpansionEvent evt) {
+            }
+            public void treeExpanded(javax.swing.event.TreeExpansionEvent evt) {
+                treeDirTreeExpanded(evt);
+            }
+        });
+        treeDir.addTreeExpansionListener(this);
         jScrollPane2.setViewportView(treeDir);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -149,10 +160,10 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame implements TreeS
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLoadPatchRepository))
                 .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(320, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE))
+                .addContainerGap(116, Short.MAX_VALUE))
         );
 
         pack();
@@ -192,6 +203,13 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame implements TreeS
         
 
 }//GEN-LAST:event_btnLoadPatchRepositoryActionPerformed
+
+    private void treeDirTreeExpanded(javax.swing.event.TreeExpansionEvent evt) {//GEN-FIRST:event_treeDirTreeExpanded
+        // TODO add your handling code here:
+
+        System.out.println("exp");
+
+    }//GEN-LAST:event_treeDirTreeExpanded
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -235,6 +253,7 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame implements TreeS
      * @param event El evento que sucedio
      */
     public void treeExpanded(TreeExpansionEvent event) {
+        /*
         TreePath path = event.getPath();
         DefaultMutableTreeNode node =
                 (DefaultMutableTreeNode) path.getLastPathComponent();
@@ -251,6 +270,7 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame implements TreeS
         model.nodeStructureChanged(node);
 
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        */
     }
 
     /**
@@ -258,6 +278,6 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame implements TreeS
      * @param event El evento que sucedio
      */
     public void treeCollapsed(TreeExpansionEvent event) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
 }
