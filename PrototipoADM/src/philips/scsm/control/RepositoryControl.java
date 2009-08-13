@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import philips.scsm.data.Solution;
 import philips.scsm.view.SolutionRepositoryFrame;
 
 /**
@@ -22,6 +23,39 @@ public class RepositoryControl {
         this.parent = parent;
     }
 
+    public List checkRepository(String path) {
+        File root = new File(path);
+        File[] list = root.listFiles();
+        List patchList = new ArrayList();
+        Solution sol = null;
+
+        for(int i = 0; i < list.length; i++) {
+
+            System.out.println(list[i].getName());
+            String name = list[i].getName();
+            if (name.indexOf("RQ") != -1) {
+                name = name.substring(name.indexOf("RQ"), name.length());
+                String id = name.substring(name.indexOf(" ") + 1, name.indexOf("_"));
+                sol = new Solution(id, name);
+
+                sol.setHaveTicket(true);
+                sol.setNeedTicket(true);
+                sol.setHaveJarPatch(true);
+                sol.setHaveTxtPatch(true);
+                sol.setHaveEmailPatch(true);
+                sol.setHaveCodeCVS(true);
+                sol.setHaveCodePatch(true);
+
+                patchList.add(sol);
+            } else {
+                continue;
+            }
+        }
+
+
+        return patchList;
+    }
+
     public List getBugList(File file) {
         List source = new ArrayList();
         try {
@@ -35,22 +69,6 @@ public class RepositoryControl {
             }
 
             while (reader.ready()) {
-                /*String linea = reader.readLine();
-                StringTokenizer tok = new StringTokenizer(linea, ",");
-                LinkedHashMap item = new LinkedHashMap();
-                int i = 0;
-                while (tok.hasMoreElements()) {
-                String value = String.valueOf(tok.nextElement()).replaceAll("\"", "");
-                if (value.isEmpty()) {
-                System.out.println("vacio " + i);
-                } else {
-                System.out.println("no vacio -" + value + "-");
-                }
-                item.put(header[i], value);
-                i++;
-                }
-                source.add(item);*/
-
                 String[] tok = reader.readLine().split(",");
                 LinkedHashMap item = new LinkedHashMap();
 
