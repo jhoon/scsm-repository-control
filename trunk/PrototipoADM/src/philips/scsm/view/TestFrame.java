@@ -10,6 +10,9 @@
  */
 package philips.scsm.view;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 import philips.scsm.view.TableModel;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
@@ -21,7 +24,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class TestFrame extends javax.swing.JFrame {
 
-    DefaultTableModel model;
+    TableModel_1_1 model;
     TableModel model2;
 
     /** Creates new form NewJFrame */
@@ -43,9 +46,32 @@ public class TestFrame extends javax.swing.JFrame {
             {"Angela", "Lalth",
                 "Nadar", new Integer(4), new Boolean(false)}
         };
+
+        Vector dataV1 = new Vector();
+        dataV1.add("XXXX");
+        dataV1.add("YYYY");
+        dataV1.add("JJJJ");
+
+        Vector dataV2 = new Vector();
+        dataV2.add("XX2XX");
+        dataV2.add("Y2YYY");
+        dataV2.add("J2JJJ");
+
+        List dataF = new ArrayList();
+        dataF.add(dataV1);
+        dataF.add(dataV2);
+
+        /*Vector dataC = new Vector();
+        dataC.add("1");
+        dataC.add("2");
+        dataC.add("J23JJJ");
+
         //model = new ModeloDatosTabla(data, true);
-        model = new DefaultTableModel();
-        model2 = new TableModel(columnNames, data);
+        model = new TableModel_1_1(dataC, dataF);
+        model2 = new TableModel(columnNames, data, false);
+*/
+
+
 
         initComponents();
 
@@ -62,7 +88,7 @@ public class TestFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable(model2);
+        jTable1 = new javax.swing.JTable(model);
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new JTable(model2);
 
@@ -78,19 +104,19 @@ public class TestFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
-                .addComponent(jScrollPane2, 0, 0, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();

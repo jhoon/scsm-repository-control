@@ -1,0 +1,119 @@
+public class ModeloDatosTabla extends AbstractTableModel implements TableModel {
+
+    private Object[][] data;
+    private String[] headers;
+    private boolean editable = false;
+    private boolean[] colEditables;
+
+    public ModeloDatosTabla(String[][] data, boolean editable) {
+        this.data = new String[data.length][data[0].length];
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[0].length; i++) {
+                this.data[i][j] = data[i][j];
+            }
+        }
+        headers = new String[data[0].length];
+        for (int i = 0; i < headers.length; i++) {
+            headers[i] = "";
+        }
+        this.editable = editable;
+    }
+
+    public ModeloDatosTabla(String[][] data, String[] headers, boolean editable) {
+        this.data = new String[data.length][data[0].length];
+        this.headers = headers;
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data.length; i++) {
+                this.data[i][j] = data[i][j];
+            }
+        }
+        this.editable = editable;
+    }
+
+    public ModeloDatosTabla(Object[][] data, boolean editable) {
+        this.data = new Object[data.length][data[0].length];
+
+        System.out.println("data.length " + data.length);
+        System.out.println("data[0].length " + data[0].length);
+
+        for (int i = 0; i < data[0].length; i++) {
+            for (int j = 0; j < data.length; j++) {
+                this.data[i][j] = data[i][j];
+            }
+        }
+        headers = new String[data[0].length];
+        for (int i = 0; i < headers.length; i++) {
+            headers[i] = "";
+        }
+        this.editable = editable;
+    }
+
+    public ModeloDatosTabla(Object[][] data, String[] headers, boolean editable) {
+        this.data = new Object[data.length][data[0].length];
+        this.headers = headers;
+        for (int i = 0; i < data[0].length; i++) {
+            for (int j = 0; j < data.length; j++) {
+                this.data[i][j] = data[i][j];
+            }
+        }
+        this.editable = editable;
+    }
+
+    public ModeloDatosTabla(Object[][] data, String[] headers, boolean editable, boolean[] colEditables) {
+        this.data = new Object[data.length][data[0].length];
+        this.headers = headers;
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[0].length; i++) {
+                this.data[i][j] = data[i][j];
+            }
+        }
+        this.editable = editable;
+        this.colEditables = colEditables;
+    }
+
+    public int getColumnCount() {
+        return data[0].length;
+    }
+
+    @Override
+    public String getColumnName(int columnIndex) {
+        return headers[columnIndex];
+    }
+
+    public int getRowCount() {
+        return data.length;
+    }
+
+    public Object getValueAt(int rowIndex, int columnIndex) {
+        return data[rowIndex][columnIndex];
+    }
+
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        if (colEditables != null) {
+            return colEditables[columnIndex];
+        } else {
+            return editable;
+        }
+    }
+
+    @Override
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+        data[rowIndex][columnIndex] = aValue;
+        this.fireTableStructureChanged();
+        this.fireTableDataChanged();
+   }
+
+    @Override
+    public Class getColumnClass(int columnIndex) {
+        return getValueAt(0, columnIndex).getClass();
+    }
+
+    @Override
+    public void removeTableModelListener(javax.swing.event.TableModelListener l) {
+    }
+
+    @Override
+    public void addTableModelListener(javax.swing.event.TableModelListener l) {
+    }
+}
