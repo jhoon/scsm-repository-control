@@ -1,9 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package philips.scsm.view;
 
+import java.util.Vector;
 import javax.swing.event.EventListenerList;
 import javax.swing.table.AbstractTableModel;
 
@@ -11,43 +8,37 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author pablo.sierralta
  */
-public class TableModel extends AbstractTableModel {
+public class TableModel_1 extends AbstractTableModel {
 
-    private String[] columnNames = null;
-    private Object[][] data = null;
+    private Vector dataVector;
+    private String[] columnIdentifiers;
     private boolean editable = false;
     private boolean[] colEditables;
 
-    public TableModel() {
+    TableModel_1() {
         super();
     }
 
-    public TableModel(String[] columnNames, Object[][] data) {
-        this.columnNames = columnNames;
-        this.data = data;
-    }
-
-    public TableModel(String[] columnNames, Object[][] data, boolean editable) {
-        this.columnNames = columnNames;
-        this.data = data;
-        this.editable = editable;
+    TableModel_1(String[] columnIdentifiers, Vector dataVector) {
+        this.columnIdentifiers = columnIdentifiers;
+        this.dataVector = dataVector;
     }
 
     public int getColumnCount() {
-        return columnNames.length;
+        return columnIdentifiers.length;
     }
 
     public int getRowCount() {
-        return data.length;
+        return dataVector.size();
     }
 
     @Override
     public String getColumnName(int col) {
-        return columnNames[col];
+        return "" + columnIdentifiers[col];
     }
 
     public Object getValueAt(int row, int col) {
-        return data[row][col];
+        return ((Vector) dataVector.get(row)).get(col);
     }
 
     @Override
@@ -64,20 +55,6 @@ public class TableModel extends AbstractTableModel {
         }
     }
 
-    @Override
-    public void setValueAt(Object value, int row, int col) {
-        data[row][col] = value;
-        fireTableCellUpdated(row, col);
-    }
-
-    public void setData(Object[][] data) {
-        this.data = data;
-    }
-
-    public void setColumnNames(String[] columnNames) {
-        this.columnNames = columnNames;
-    }
-
     public void setEditable(boolean editable) {
         this.editable = editable;
     }
@@ -89,6 +66,25 @@ public class TableModel extends AbstractTableModel {
     public void setListenerList(EventListenerList listenerList) {
         this.listenerList = listenerList;
     }
-    
 
+    public void setDataVector(Vector dataVector) {
+        this.dataVector = dataVector;
+    }
+
+    @Override
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+        super.setValueAt(aValue, rowIndex, columnIndex);
+    }
+
+    public void setColumnIdentifiers(String[] columnIdentifiers) {
+        this.columnIdentifiers = columnIdentifiers;
+    }
+
+    public Vector getDataVector() {
+        return dataVector;
+    }
+
+    public String[] getColumnIdentifiers() {
+        return columnIdentifiers;
+    }
 }
