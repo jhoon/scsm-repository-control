@@ -25,26 +25,8 @@ public class TableModel_1_1 extends AbstractTableModel {
         this.dataVector = dataVector;
     }
 
-    public int getColumnCount() {
-        return columnIdentifiers.length;
-    }
-
-    public int getRowCount() {
-        return dataVector.size();
-    }
-
-    @Override
-    public String getColumnName(int col) {
-        return "" + columnIdentifiers[col];
-    }
-
     public Object getValueAt(int row, int col) {
         return ((List) dataVector.get(row)).get(col);
-    }
-
-    @Override
-    public Class getColumnClass(int c) {
-        return getValueAt(0, c).getClass();
     }
 
     @Override
@@ -64,33 +46,55 @@ public class TableModel_1_1 extends AbstractTableModel {
         this.colEditables = colEditables;
     }
 
-    public void setListenerList(EventListenerList listenerList) {
-        this.listenerList = listenerList;
-    }
-
-    public List getDataVector() {
-        return dataVector;
-    }
-
-    public String[] getColumnIdentifiers() {
-        return columnIdentifiers;
-    }
-
     @Override
-    public TableModelListener[] getTableModelListeners() {
-        return super.getTableModelListeners();
-    }
-
-    public EventListenerList getListenerList() {
-        return listenerList;
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+        super.setValueAt(aValue, rowIndex, columnIndex);
     }
 
     public void setColumnIdentifiers(String[] columnIdentifiers) {
         this.columnIdentifiers = columnIdentifiers;
     }
 
-    public void setDataVector(List dataVector) {
+    public String[] getColumnIdentifiers() {
+        return columnIdentifiers;
+    }
 
+    public void setDataVector(List dataVector) {
         this.dataVector = dataVector;
+    }
+
+    public List getDataVector() {
+        return dataVector;
+    }
+
+    public int getColumnCount() {
+        return columnIdentifiers.length;
+    }
+
+    @Override
+    public String getColumnName(int col) {
+        return "" + columnIdentifiers[col];
+    }
+
+    @Override
+    public Class getColumnClass(int c) {
+        return getValueAt(0, c).getClass();
+    }
+
+    public int getRowCount() {
+        return dataVector.size();
+    }
+
+    public EventListenerList getListenerList() {
+        return listenerList;
+    }
+
+    public void setListenerList(EventListenerList listenerList) {
+        this.listenerList = listenerList;
+    }
+
+    @Override
+    public TableModelListener[] getTableModelListeners() {
+        return super.getTableModelListeners();
     }
 }

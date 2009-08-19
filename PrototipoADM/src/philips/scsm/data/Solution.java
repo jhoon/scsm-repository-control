@@ -14,13 +14,13 @@ public class Solution {
     private String opSys;
     private String priority;
     private String severity;
-    private boolean haveTicket;
+    private boolean hasTicket;
     private boolean needTicket;
-    private boolean haveJarPatch;
-    private boolean haveTxtPatch;
-    private boolean haveEmailPatch;
-    private boolean haveCodeCVS;
-    private boolean haveCodePatch;
+    private boolean hasJarPatch;
+    private boolean hasTxtPatch;
+    private boolean hasEmailPatch;
+    private boolean hasCodeCVS;
+    private boolean hasCodePatch;
 
     public Solution(String id) {
         this.id = id;
@@ -144,17 +144,17 @@ public class Solution {
     }
 
     /**
-     * @return the haveTicket
+     * @return the hasTicket
      */
-    public boolean isHaveTicket() {
-        return haveTicket;
+    public boolean isHasTicket() {
+        return hasTicket;
     }
 
     /**
-     * @param haveTicket the haveTicket to set
+     * @param hasTicket the hasTicket to set
      */
-    public void setHaveTicket(boolean haveTicket) {
-        this.haveTicket = haveTicket;
+    public void setHasTicket(boolean hasTicket) {
+        this.hasTicket = hasTicket;
     }
 
     /**
@@ -172,72 +172,74 @@ public class Solution {
     }
 
     /**
-     * @return the haveJarPatch
+     * @return the hasJarPatch
      */
-    public boolean isHaveJarPatch() {
-        return haveJarPatch;
+    public boolean isHasJarPatch() {
+        return hasJarPatch;
     }
 
     /**
-     * @param haveJarPatch the haveJarPatch to set
+     * @param hasJarPatch the hasJarPatch to set
      */
-    public void setHaveJarPatch(boolean haveJarPatch) {
-        this.haveJarPatch = haveJarPatch;
+    public void setHasJarPatch(boolean hasJarPatch) {
+        this.hasJarPatch = hasJarPatch;
     }
 
     /**
-     * @return the haveTxtPatch
+     * @return the hasTxtPatch
      */
-    public boolean isHaveTxtPatch() {
-        return haveTxtPatch;
+    public boolean isHasTxtPatch() {
+        return hasTxtPatch;
     }
 
     /**
-     * @param haveTxtPatch the haveTxtPatch to set
+     * @param hasTxtPatch the hasTxtPatch to set
      */
-    public void setHaveTxtPatch(boolean haveTxtPatch) {
-        this.haveTxtPatch = haveTxtPatch;
+    public void setHasTxtPatch(boolean hasTxtPatch) {
+        this.hasTxtPatch = hasTxtPatch;
     }
 
     /**
-     * @return the haveEmailPatch
+     * @return the hasEmailPatch
      */
-    public boolean isHaveEmailPatch() {
-        return haveEmailPatch;
+    public boolean isHasEmailPatch() {
+        return hasEmailPatch;
     }
 
     /**
-     * @param haveEmailPatch the haveEmailPatch to set
+     * @param hasEmailPatch the hasEmailPatch to set
      */
-    public void setHaveEmailPatch(boolean haveEmailPatch) {
-        this.haveEmailPatch = haveEmailPatch;
+    public void setHasEmailPatch(boolean hasEmailPatch) {
+        this.hasEmailPatch = hasEmailPatch;
     }
 
     /**
-     * @return the haveCodeCVS
+     * @return the hasCodeCVS
      */
-    public boolean isHaveCodeCVS() {
-        return haveCodeCVS;
+    public boolean isHasCodeCVS() {
+        return hasCodeCVS;
     }
 
     /**
-     * @param haveCodeCVS the haveCodeCVS to set
+     * @param hasCodeCVS the hasCodeCVS to set
      */
-    public void setHaveCodeCVS(boolean haveCodeCVS) {
-        this.haveCodeCVS = haveCodeCVS;
+    public void setHasCodeCVS(boolean hasCodeCVS) {
+        this.hasCodeCVS = hasCodeCVS;
     }
 
     /**
-     * @return the haveCodePatch
+     * @return the hasCodePatch
      */
-    public boolean isHaveCodePatch() {
-        return haveCodePatch;
+    public boolean isHasCodePatch() {
+        return hasCodePatch;
     }
 
     /**
-     * @param haveCodePatch the haveCodePatch to set
+     * @param hasCodePatch the hasCodePatch to set
      */
-    public void setHaveCodePatch(boolean haveCodePatch) {
-        this.haveCodePatch = haveCodePatch;
+    public void setHasCodePatch(boolean hasCodePatch) {
+        this.hasCodePatch = hasCodePatch;
     }
+
+    
 }
