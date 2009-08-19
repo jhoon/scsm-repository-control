@@ -33,19 +33,46 @@ public class RepositoryControl {
     public List checkRepository2(String path) {
         File root = new File(path);
         File[] list = root.listFiles();
+
         List patchList = new LinkedList();
 
         for (int i = 0; i < list.length; i++) {
-            String name = list[i].getName();
-            if (name.indexOf("RQ") != -1) {
-                name = name.substring(name.indexOf("RQ"), name.length());
+            String patchPath = list[i].getName();
+            if (patchPath.indexOf("RQ") != -1) {
+                String name = patchPath.substring(patchPath.indexOf("RQ"), patchPath.length());
                 String id = name.substring(name.indexOf(" ") + 1, name.indexOf("_"));
+                boolean haveTicket = false;
+                boolean needTicket = true;
+                boolean haveJarPatch;
+                boolean haveTxtPatch;
+                boolean haveEmailPatch;
+                boolean haveCodeCVS;
+                boolean haveCodePatch;
+
+                File requirements = new File(path + "\\" + patchPath + "\\" + "1. Requirements\\");
+                System.out.println(id);
+                File[] valRequirements = requirements.listFiles();
+                if (valRequirements == null){
+                    haveTicket = false;
+                } else if (valRequirements.length == 0) {
+                    haveTicket = false;
+                } else {
+                    for (int j = 0; j < valRequirements.length; j++){
+                        String file = valRequirements[j].getName();
+                        if (file.indexOf(".xls") != -1 || file.indexOf(".doc") != -1) {
+                            haveTicket = true;
+                        }
+                        if (file.indexOf("NO TICKET") != -1 ) {
+                            needTicket = false;
+                        }
+                    }
+                }
 
                 Vector vec = new Vector();
                 vec.add(Integer.valueOf(id));
                 vec.add(name);
-                vec.add(new Boolean(true));
-                vec.add(new Boolean(true));
+                vec.add(haveTicket);
+                vec.add(needTicket);
                 vec.add(new Boolean(true));
                 vec.add(new Boolean(true));
                 vec.add(new Boolean(true));
