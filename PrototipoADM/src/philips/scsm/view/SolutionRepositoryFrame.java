@@ -77,6 +77,7 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame implements TreeE
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        fileChooser = new javax.swing.JFileChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbRepository = new javax.swing.JTable();
         btnLoadPatchData = new javax.swing.JButton();
@@ -85,11 +86,11 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame implements TreeE
         btnLoadPatchRepository = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         treeDir = new javax.swing.JTree(top);
-        jButton1 = new javax.swing.JButton();
+        btnExecute = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tbFilter = new javax.swing.JTable(filterModel);
+        tbFilterList = new javax.swing.JTable(filterModel);
         jScrollPane4 = new javax.swing.JScrollPane();
-        tbFilter1 = new javax.swing.JTable(filterModel);
+        tbFilterVector = new javax.swing.JTable(filterModel);
         jPanel1 = new javax.swing.JPanel();
         lblResults = new javax.swing.JLabel();
 
@@ -133,14 +134,14 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame implements TreeE
         treeDir.addTreeExpansionListener(this);
         jScrollPane2.setViewportView(treeDir);
 
-        jButton1.setText("Execute");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnExecute.setText("Execute");
+        btnExecute.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnExecuteActionPerformed(evt);
             }
         });
 
-        tbFilter.setModel(new javax.swing.table.DefaultTableModel(
+        tbFilterList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -148,9 +149,9 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame implements TreeE
 
             }
         ));
-        jScrollPane3.setViewportView(tbFilter);
+        jScrollPane3.setViewportView(tbFilterList);
 
-        tbFilter1.setModel(new javax.swing.table.DefaultTableModel(
+        tbFilterVector.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -158,7 +159,7 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame implements TreeE
 
             }
         ));
-        jScrollPane4.setViewportView(tbFilter1);
+        jScrollPane4.setViewportView(tbFilterVector);
 
         lblResults.setBorder(javax.swing.BorderFactory.createCompoundBorder(null, javax.swing.BorderFactory.createCompoundBorder(null, javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.black, null))));
 
@@ -197,7 +198,7 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame implements TreeE
                             .addComponent(btnLoadPatchRepository, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnLoadPatchData, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(94, 94, 94)
-                        .addComponent(jButton1)
+                        .addComponent(btnExecute)
                         .addGap(53, 53, 53))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE))
@@ -214,7 +215,7 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame implements TreeE
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLoadPatchRepository)
-                    .addComponent(jButton1))
+                    .addComponent(btnExecute))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -258,7 +259,7 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame implements TreeE
 
 }//GEN-LAST:event_btnLoadPatchRepositoryActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnExecuteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExecuteActionPerformed
 
         Date date1 = null;
         Date date2 = null;
@@ -281,11 +282,11 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame implements TreeE
                 });
         mod.setEditable(false);
         mod.setDataVector(patchList);
-        tbFilter.setModel(mod);
+        tbFilterList.setModel(mod);
 
         TableColumn column = null;
-        for (int i = 0; i < tbFilter.getColumnCount(); i++) {
-            column = tbFilter.getColumnModel().getColumn(i);
+        for (int i = 0; i < tbFilterList.getColumnCount(); i++) {
+            column = tbFilterList.getColumnModel().getColumn(i);
 
             if (i == 0) {
                 column.setMinWidth(60);
@@ -319,10 +320,10 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame implements TreeE
                 });
         mod2.setEditable(false);
         mod2.setDataVector(patchList2);
-        tbFilter1.setModel(mod2);
+        tbFilterVector.setModel(mod2);
 
-        for (int i = 0; i < tbFilter1.getColumnCount(); i++) {
-            column = tbFilter1.getColumnModel().getColumn(i);
+        for (int i = 0; i < tbFilterVector.getColumnCount(); i++) {
+            column = tbFilterVector.getColumnModel().getColumn(i);
 
             if (i == 0) {
                 column.setMinWidth(60);
@@ -363,12 +364,13 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame implements TreeE
 
         lblResults.setText(result.toString());
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+}//GEN-LAST:event_btnExecuteActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnExecute;
     private javax.swing.JButton btnLoadPatchData;
     private javax.swing.JButton btnLoadPatchRepository;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JFileChooser fileChooser;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -377,8 +379,8 @@ public class SolutionRepositoryFrame extends javax.swing.JFrame implements TreeE
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lblResults;
-    private javax.swing.JTable tbFilter;
-    private javax.swing.JTable tbFilter1;
+    private javax.swing.JTable tbFilterList;
+    private javax.swing.JTable tbFilterVector;
     private javax.swing.JTable tbRepository;
     private javax.swing.JTree treeDir;
     // End of variables declaration//GEN-END:variables
